@@ -1,0 +1,157 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../css/iconfont.css"/>
+</head>
+<body>
+  <header class="aui-bar aui-bar-nav" id="aui-header" style="background: linear-gradient(90deg, #FA7C54 0%, #FD3F69 100%); font-size:16px">
+      <a class="aui-btn aui-pull-left"  tapmode onclick="closeWin() "style="color:#FFF">
+          <span class="aui-iconfont aui-icon-left" style="color:#FFF"> </span>返回
+      </a>
+
+      <div id="title" class="aui-title" style="color:#FFF">千月影视</div>
+  <!--    <a id="play" class="aui-btn aui-pull-right" style="color:#fff000 !important;font-weight:bold" tapmode onclick="huanxian()">
+           点此播放
+      </a>
+-->      <a class="aui-btn aui-pull-right" tapmode onclick="closeWd()"style="color:#FFF" >
+          关闭
+      </a>
+
+  </header>
+
+</body>
+
+<script type="text/javascript" src="../script/api.js" ></script>
+<script type="text/javascript">
+    var dataurl = '';
+    var dataurl2 = '';
+    var qiyiurl = '';
+    var dcode = 1;
+    var onoff = true;
+    var jx_url1 = localStorage.getItem('jx_url1');
+    var jx_url2 = localStorage.getItem('jx_url2');
+
+    apiready = function(){
+      var api_url = localStorage.getItem('api_url');
+
+      api.parseTapmode();
+      var header = $api.byId('aui-header');
+      $api.fixStatusBar(header);
+      var headerPos = $api.offset(header);
+      var body_h = $api.offset($api.dom('body')).h;
+
+
+
+      api.addEventListener({
+          name: 'keyback'
+      }, function(ret, err) {
+        api.hideProgress();
+        api.setScreenOrientation({
+            orientation: 'portrait_up'
+        });
+        var browser = api.require('webBrowser');
+        browser.historyBack(
+          function(ret, err) {
+              if (!ret.status) {
+                  api.closeWin();
+              }
+          }
+        );
+      });
+
+
+      var browser = api.require('webBrowser');
+      browser.openView({
+          url: api.pageParam.url,
+          rect: {
+              x: 0,
+              y: headerPos.h,
+              w: 'auto',
+              h: 'auto'
+          },
+          progress:{//设置进度条类型和样式
+  color:'rgba(0,0,0,0)'    //背景色 设置透明
+}
+      }, function(ret, err) {
+        // api.alert({
+        //     msg: JSON.stringify(ret)
+        // });
+          switch (ret.state) {
+              case 0:
+
+               dataurl = ret.url;
+               dataurl2 = dataurl;
+
+
+             var bturl = dataurl2.split(":");
+             var feurl = bturl[1];
+
+
+
+             //alert(dataurl2);
+                  break;
+              case 1:
+                  break;
+              case 2:
+                  break;
+              case 3:
+              var title = $api.byId('title');
+              title.innerHTML = ret.title;
+              break;
+              case 4:
+                  break;
+              default:
+              var title = $api.byId('title');
+              title.innerHTML = ret.title;
+                  break;
+          };
+
+      });
+
+    
+
+    }
+
+
+
+    function getCaption(obj){
+      var index=obj.lastIndexOf("\=");
+      obj=obj.substring(index+1,obj.length);
+      return obj;
+    }
+
+
+
+
+    function getParam(name) {
+
+        return dataurl2.match(new RegExp('[?&]' + name + '=([^?&]+)', 'i')) ? decodeURIComponent(RegExp.$1) : '';
+
+    }
+
+    function closeWin(){
+      var browser = api.require('webBrowser');
+      browser.historyBack(
+        function(ret, err) {
+            if (!ret.status) {
+                api.closeWin();
+            }
+        }
+      );
+    }
+
+    function closeWd(){
+      api.closeWin();
+    }
+
+
+
+
+</script>
+
+</html>

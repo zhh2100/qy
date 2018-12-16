@@ -1,0 +1,200 @@
+<script type="text/javascript">
+    jQuery(document).ready(function($)
+    {
+        // Notifications
+        setTimeout(function()
+        {
+            var opts = {
+                "closeButton": true,
+                "debug": false,
+                "positionClass": "toast-top-right toast-default",
+                "toastClass": "black",
+                "onclick": null,
+                "showDuration": "100",
+                "hideDuration": "1000",
+                "timeOut": "5000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            };
+
+            toastr.info("You have been awarded with 1 year free subscription. Enjoy it!", "Account Subcription Updated", opts);
+        }, 3000);
+
+        // Charts
+        var xenonPalette = ['#68b828','#7c38bc','#0e62c7','#fcd036','#4fcdfc','#00b19d','#ff6264','#f7aa47'];
+
+        // Pageviews Visitors Chart
+        var i = 0,
+            line_chart_data_source = [
+                { id: ++i, part1: 4, part2: 2 },
+                { id: ++i, part1: 5, part2: 3 },
+                { id: ++i, part1: 5, part2: 3 },
+                { id: ++i, part1: 4, part2: 2 },
+                { id: ++i, part1: 3, part2: 1 },
+                { id: ++i, part1: 3, part2: 2 },
+                { id: ++i, part1: 5, part2: 3 },
+                { id: ++i, part1: 7, part2: 4 },
+                { id: ++i, part1: 9, part2: 5 },
+                { id: ++i, part1: 7, part2: 4 },
+                { id: ++i, part1: 7, part2: 3 },
+                { id: ++i, part1: 11, part2: 6 },
+                { id: ++i, part1: 10, part2: 8 },
+                { id: ++i, part1: 9, part2: 7 },
+                { id: ++i, part1: 8, part2: 7 },
+                { id: ++i, part1: 8, part2: 7 },
+                { id: ++i, part1: 8, part2: 7 },
+                { id: ++i, part1: 8, part2: 6 },
+                { id: ++i, part1: 15, part2: 5 },
+                { id: ++i, part1: 10, part2: 5 },
+                { id: ++i, part1: 9, part2: 6 },
+                { id: ++i, part1: 9, part2: 3 },
+                { id: ++i, part1: 8, part2: 5 },
+                { id: ++i, part1: 8, part2: 4 },
+                { id: ++i, part1: 9, part2: 5 },
+                { id: ++i, part1: 8, part2: 6 },
+                { id: ++i, part1: 8, part2: 5 },
+                { id: ++i, part1: 7, part2: 6 },
+                { id: ++i, part1: 7, part2: 5 },
+                { id: ++i, part1: 6, part2: 5 },
+                { id: ++i, part1: 7, part2: 6 },
+                { id: ++i, part1: 7, part2: 5 },
+                { id: ++i, part1: 8, part2: 5 },
+                { id: ++i, part1: 6, part2: 5 },
+                { id: ++i, part1: 5, part2: 4 },
+                { id: ++i, part1: 5, part2: 3 },
+                { id: ++i, part1: 6, part2: 3 },
+            ];
+
+        $("#pageviews-visitors-chart").dxChart({
+            dataSource: line_chart_data_source,
+            commonSeriesSettings: {
+                argumentField: "id",
+                point: { visible: true, size: 5, hoverStyle: {size: 7, border: 0, color: 'inherit'} },
+                line: {width: 1, hoverStyle: {width: 1}}
+            },
+            series: [
+                { valueField: "part1", name: "Pageviews", color: "#68b828" },
+                { valueField: "part2", name: "Visitors", color: "#eeeeee" },
+            ],
+            legend: {
+                position: 'inside',
+                paddingLeftRight: 5
+            },
+            commonAxisSettings: {
+                label: {
+                    visible: false
+                },
+                grid: {
+                    visible: true,
+                    color: '#f9f9f9'
+                }
+            },
+            valueAxis: {
+                max: 25
+            },
+            argumentAxis: {
+                valueMarginsEnabled: false
+            },
+        });
+
+
+
+
+        // Resize charts
+        $(window).on('xenon.resize', function()
+        {
+            $("#pageviews-visitors-chart").data("dxChart").render();
+
+        });
+
+    });
+
+
+</script>
+<div class="row">
+    <div class="col-sm-3">
+
+
+        <div class="xe-widget xe-counter xe-counter-purple" data-count=".num" data-from="1" data-to="{$tzcount}" data-suffix="人" data-duration="3" data-easing="false">
+            <div class="xe-icon">
+                <i class="linecons-user"></i>
+            </div>
+            <div class="xe-label">
+                <strong class="num">1k</strong>
+                <span>今天登陆人数</span>
+            </div>
+        </div>
+        <div class="xe-widget xe-counter xe-counter-info" data-count=".num" data-from="1" data-to="{$dcount}" data-suffix="人" data-duration="3" data-easing="false">
+            <div class="xe-icon">
+                <i class="linecons-user"></i>
+            </div>
+            <div class="xe-label">
+                <strong class="num">1k</strong>
+                <span>代理数</span>
+            </div>
+        </div>
+        <div class="xe-widget xe-counter " data-count=".num" data-from="1" data-to="{$ycount}" data-suffix="人" data-duration="3" data-easing="false">
+            <div class="xe-icon">
+                <i class="linecons-user"></i>
+            </div>
+            <div class="xe-label">
+                <strong class="num">1k</strong>
+                <span>用户总数</span>
+            </div>
+        </div>
+        <div class="xe-widget xe-counter xe-counter-purple" data-count=".num" data-from="1" data-to="{$fcount}" data-suffix="人" data-duration="3" data-easing="false">
+            <div class="xe-icon">
+                <i class="linecons-user"></i>
+            </div>
+            <div class="xe-label">
+                <strong class="num">1k</strong>
+                <span>付费用户</span>
+            </div>
+        </div>
+        <div class="xe-widget xe-counter xe-counter-info" data-count=".num" data-from="1" data-to="{$mcount}" data-suffix="人" data-duration="3" data-easing="false">
+            <div class="xe-icon">
+                <i class="linecons-user"></i>
+            </div>
+            <div class="xe-label">
+                <strong class="num">1k</strong>
+                <span>免费用户</span>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-sm-6">
+
+        <div class="chart-item-bg">
+            <div class="chart-label">
+                <div class="h3 text-secondary text-bold" data-count="this" data-from="0.00" data-to="14.85" data-suffix="%" data-duration="1">0.00%</div>
+                <span class="text-medium text-muted">More visitors</span>
+            </div>
+            <div id="pageviews-visitors-chart" style="height: 298px;"></div>
+        </div>
+
+    </div>
+    <div class="col-sm-3">
+
+        <div class="chart-item-bg">
+            <div class="chart-label chart-label-small">
+                <div class="h4 text-purple text-bold" data-count="this" data-from="0.00" data-to="95.8" data-suffix="%" data-duration="1.5">0.00%</div>
+                <span class="text-small text-upper text-muted">Current Server Uptime</span>
+            </div>
+            <div id="server-uptime-chart" style="height: 134px;"></div>
+        </div>
+
+        <div class="chart-item-bg">
+            <div class="chart-label chart-label-small">
+                <div class="h4 text-secondary text-bold" data-count="this" data-from="0.00" data-to="320.45" data-decimal="," data-duration="2">0</div>
+                <span class="text-small text-upper text-muted">Avg. of Sales</span>
+            </div>
+            <div id="sales-avg-chart" style="height: 134px; position: relative;">
+                <div style="position: absolute; top: 25px; right: 0; left: 40%; bottom: 0"></div>
+            </div>
+        </div>
+
+    </div>
+</div>

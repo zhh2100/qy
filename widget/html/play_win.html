@@ -1,0 +1,206 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="../css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../css/iconfont.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/auislide.css" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css"/>
+	<style type="text/css">
+       html,body{background-color:#000;}
+    </style>
+</head>
+
+<body>
+  <header class="aui-bar aui-bar-nav" id="header" style="background: linear-gradient(#000, #000);color:#c4c4c4;position: relative;padding-top:25px;">
+      <a class="aui-btn aui-pull-left" tapmode onclick="closeWin()">
+       &nbsp;  <span class="aui-iconfont aui-icon-left" style=color:#c4c4c4 ></span>
+      </a>
+      <div id="title" class="aui-title" >正在播放</div>
+      <a id="play" class="aui-btn aui-pull-right" style=color:#c4c4c4 tapmode onclick="jieXi()">
+          <i class="icon icon-genghuanxianlu-b"></i>  更换线路
+      </a>
+  </header>
+</body>
+<script type="text/javascript" src="../script/api.js" ></script>
+<script type="text/javascript" src="../script/date.min.js"></script>
+<script type="text/javascript">
+    var jx_url1 = localStorage.getItem('jx_url1');
+    var jx_url2 = localStorage.getItem('jx_url2');
+    apiready = function(){
+
+      api.parseTapmode();
+      var header = $api.byId('aui-header');
+      $api.fixStatusBar(header);
+      var headerPos = $api.offset(header);
+      var body_h = $api.offset($api.dom('body')).h;
+
+      api.addEventListener({
+          name: 'keyback'
+      }, function(ret, err) {
+        api.setScreenOrientation({
+            orientation: 'portrait_up'
+        });
+        api.closeWin();
+      });
+
+
+      var browser = api.require('webBrowser');
+      browser.openView({
+          url: api.pageParam.url,
+          rect: {
+              x: 0,
+              y: 70,
+              w: 'auto',
+              h: 'auto',
+          }
+      }, function(ret, err) {
+
+          switch (ret.state) {
+              case 0:
+                  break;
+              case 1:
+                  break;
+              case 2:
+                  break;
+              case 3:
+                  break;
+              case 4:
+                  break;
+              default:
+                  break;
+          };
+
+
+      });
+
+		if(api.pageParam.needRecordHistory){
+			record_play_history();
+		}else{
+
+		}
+    }
+
+    function getCaption(obj){
+      var index=obj.lastIndexOf("\=");
+      obj=obj.substring(index+1,obj.length);
+      return obj;
+    }
+
+    function closeWin(){
+      api.setScreenOrientation({
+          orientation: 'portrait_up'
+      });
+      api.closeWin();
+    }
+
+    function jieXi(){
+      api.actionSheet({
+          title: '影视VIP线路',
+          cancelTitle: '取消',
+          buttons: ['VIP线路1', 'VIP线路2', 'VIP线路3', 'VIP线路4', 'VIP线路5', 'VIP线路6', 'VIP线路7', 'VIP线路8', 'VIP线路9']
+      }, function(ret, err) {
+          var index = ret.buttonIndex;
+          if (ret.buttonIndex==1) {
+            vipHuanxian(localStorage.getItem('jx_url2'));
+          }
+          if (ret.buttonIndex==2) {
+            vipHuanxian(localStorage.getItem('jx_url3'));
+          }
+          if (ret.buttonIndex==3) {
+            vipHuanxian(localStorage.getItem('jx_url4'));
+          }
+          if (ret.buttonIndex==4) {
+            vipHuanxian(localStorage.getItem('jx_url5'));
+          }
+          if (ret.buttonIndex==5) {
+            vipHuanxian(localStorage.getItem('jx_url6'));
+          }
+          if (ret.buttonIndex==6) {
+            vipHuanxian(localStorage.getItem('jx_url7'));
+          }
+          if (ret.buttonIndex==7) {
+            vipHuanxian(localStorage.getItem('jx_url8'));
+          }
+          if (ret.buttonIndex==8) {
+            vipHuanxian(localStorage.getItem('jx_url9'));
+          }
+          if (ret.buttonIndex==9) {
+            vipHuanxian(localStorage.getItem('jx_url10'));
+          }
+      });
+    }
+	
+	 ios_inwin=function(n){
+           if(n=='shuaxin'){
+          var jsfuns='history.go(0);';
+          api.execScript({
+          frameName: 'video_frame',
+          script: jsfuns
+        });
+      }
+    };
+
+
+    function vipHuanxian(jiekou){
+      api.hideProgress();
+      var browser = api.require('webBrowser');
+      browser.loadUrl({
+          url: jiekou+api.pageParam.srcUrl
+      });
+    }
+
+	function record_play_history(){
+	  //alert(api.pageParam.title);
+	  api.ajax({
+	      url:'http://120.86.156.22:8082/login/login/jilu?uid=3',
+	      data:{
+	      	values:{
+	      		uid: localStorage.getItem('user_id'),
+	      		title: api.pageParam.title,
+	      		url: api.pageParam.srcUrl,
+	      		time: new Date().format('yyyy-MM-dd hh:mm:ss'),
+	      		ping: getPing(api.pageParam.srcUrl)
+	      	}
+	      }
+      },function(ret,err){
+      });
+	}
+      
+	
+	function getPing(url){
+		if(url.indexOf("youku.com")>0){
+			return '优酷';
+		}else if(url.indexOf("iqiyi.com")>0){
+			return '爱奇艺';
+		}else if(url.indexOf("v.qq.com")>0){
+			return "腾讯"
+    }else if(url.indexOf("tv.sohu.com")>0){
+			return "搜狐"
+    }else if(url.indexOf("v.qq.com")>0){
+      return "pptv"
+    }else if(url.indexOf("pptv.com")>0){
+      return "芒果"
+    }else if(url.indexOf("mgtv.com")>0){
+      return "M1905"
+    }else if(url.indexOf("1905.com")>0){
+      return "暴风"
+    }else if(url.indexOf("baofeng.com")>0){
+      return "乐视"
+    }else if(url.indexOf("le.com")>0){
+      return "风行"
+    }else if(url.indexOf("xxooweizhiurl.com")>0){
+      return "未知"
+		}
+
+	}
+
+ 
+</script>
+
+
+
+</html>

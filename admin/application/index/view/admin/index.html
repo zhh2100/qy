@@ -1,0 +1,241 @@
+<div class="page-title">
+
+    <div class="title-env">
+        <h1 class="title">管理员</h1>
+    </div>
+
+    <div class="breadcrumb-env">
+
+        <ol class="breadcrumb bc-1">
+            <li>
+                <a href="{:url('/')}"><i class="fa-home"></i>Home</a>
+            </li>
+
+            <li class="active">
+
+                <strong>Administrator</strong>
+            </li>
+        </ol>
+
+    </div>
+
+</div>
+<!-- Responsive Table -->
+<div class="row">
+    <div class="col-md-12">
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+
+                <div class="panel-options">
+
+
+                    <a href="#" data-toggle="panel">
+                        <span class="collapse-icon">&ndash;</span>
+                        <span class="expand-icon">+</span>
+                    </a>
+
+                    <a href="#" data-toggle="reload">
+                        <i class="fa-rotate-right"></i>
+                    </a>
+
+                    <a href="#" data-toggle="remove">
+                        &times;
+                    </a>
+                </div>
+            </div>
+            <div class="panel-body">
+
+
+                <div class="table-responsive" data-pattern="priority-columns" data-focus-btn-icon="fa-asterisk"
+                     data-sticky-table-header="true" data-add-display-all-btn="true" data-add-focus-btn="true">
+
+                    <div class="btn-toolbar">
+                        <div class="btn-group focus-btn-group">
+                            <a href="{:url('admin/add')}">
+                                <button class="btn btn-default"><i class="el-pencil"></i> 添加</button>
+                            </a>
+                        </div>
+                        <div class="btn-group dropdown-btn-group pull-right">
+                            <a href="javascript:;" onclick="del('')" class=btn-single">
+                            <button class="btn btn-default dropdown-toggle" ><i class="el-cancel-circled2"></i> 删除
+                            </button>
+                            </a>
+                        </div>
+                    </div>
+                    <table cellspacing="0" class="table table-small-font table-bordered table-striped">
+                        <thead>
+                        <tr>
+                            <th style="width: 50px"><input id="checkall" name="checkall" value="全选" type="checkbox" ></th>
+                            <th style="width: 50px">ID</th>
+                            <th>账户</th>
+                            <th>昵称</th>
+                            <th style="width: 150px">操作</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {volist name="list" id="vo"}
+                        <tr>
+                            <th style="width: 50px">
+                               <input name="checkname" value="{$vo.id}" type="checkbox" >
+                            </th>
+                            <th style="width: 50px">{$vo.id}</th>
+                            <td>{$vo.username}</td>
+                            <td>{$vo.nick_name}</td>
+                            <td>
+                                <a  href="{:url('admin/update',['id'=>$vo['id'],'page'=>input('page')])}" title="修改"> <i class="el-edit"></i></a>
+                                &nbsp;
+                                <a href="javascript:;" onclick="del('{$vo.id}')" title="删除" class=btn-single"><i class="el-trash-circled" ></i></a>
+                                <a href="{:url('user/pass_log',['id'=>$vo['id']])}" title="密码修改日志" > <i class="el-edit"></i></a>
+                            </td>
+
+                        </tr>
+                        {/volist}
+                        </tbody>
+                    </table>
+
+{$list->render()}
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+<script>
+    $("input[name='checkall']").click(function(){
+//判断当前点击的复选框处于什么状态$(this).is(":checked") 返回的是布尔类型
+        if($(this).is(":checked")){
+            $("input[name='checkname']").prop("checked",true);
+        }else{
+            $("input[name='checkname']").prop("checked",false);
+        }
+    });
+</script>
+{$code==1?'
+<div class="col-md-6" id="alert" style="position:fixed;right:0px;bottom:0px;  width: 350px">
+    <div class="alert alert-success">
+        <button type="button" class="close" data-dismiss="alert">
+            <span aria-hidden="true">×</span>
+            <span class="sr-only">Close</span>
+        </button>
+
+        <strong>恭喜 !</strong> 添加成功.
+    </div>
+</div>
+
+':''}
+
+
+{$code==2?'
+<div class="col-md-6" id="alert" style="position:fixed;right:0px;bottom:0px;  width: 350px">
+    <div class="alert alert-success">
+        <button type="button" class="close" data-dismiss="alert">
+            <span aria-hidden="true">×</span>
+            <span class="sr-only">Close</span>
+        </button>
+
+        <strong>恭喜 !</strong> 修改成功.
+    </div>
+</div>
+
+':''}
+{$code==3?'
+<div class="col-md-6" id="alert" style="position:fixed;right:0px;bottom:0px;  width: 350px">
+    <div class="alert alert-success">
+        <button type="button" class="close" data-dismiss="alert">
+            <span aria-hidden="true">×</span>
+            <span class="sr-only">Close</span>
+        </button>
+
+        <strong>恭喜 !</strong> 删除成功.
+    </div>
+</div>
+
+':''}
+<script>
+    function del(id){
+        if(id=='') {
+            var str = "";
+            $("input:checkbox[name='checkname']:checked").each(function () {
+                str += $(this).val() + ",";
+            });
+
+            if (str == '') {
+                return false
+            }
+        }else{
+            var str     =   id
+        }
+        layer.confirm('您是否删除该数据', {
+            btn: ['确定','取消'] //按钮
+        }, function(){
+            $.ajax({
+                'type'  :   'post',
+                'url'   :   '{:url("admin/delete")}',
+                'data'  :   {
+                    'id'    :   str
+                },
+                'dataType'  :   'json',
+                'success'   :   function (msg)
+                {
+                    if(msg.code=='1')
+                    {
+                        window.location.reload();
+                    }else{
+                        layer.closeAll();
+                        $('#del').php('<div class="col-md-6" id="alert">' +
+                            '<div class="alert alert-danger"  style="position:fixed;right:0px;bottom:0px;  width: 350px">' +
+                            ' <button type="button" class="close" data-dismiss="alert">' +
+                            '<span aria-hidden="true">×</span>' +
+                            '<span class="sr-only">Close</span>' +
+                            '</button>' +
+                            '<strong> 糟糕 !</strong> 删除失败'+
+                            '.请刷新后重试' +
+                            '</div>' +
+                            '</div>');
+                    }
+
+
+                    layer.closeAll();
+                    setTimeout("$('#alert').fadeOut(1000)", 2000)
+                },
+                'error'     :   function (err)
+                {
+                    layer.closeAll();
+                    $('#del').php('<div class="col-md-6" id="alert">' +
+                        '<div class="alert alert-danger"  style="position:fixed;right:0px;bottom:0px;  width: 350px">' +
+                        ' <button type="button" class="close" data-dismiss="alert">' +
+                        '<span aria-hidden="true">×</span>' +
+                        '<span class="sr-only">Close</span>' +
+                        '</button>' +
+                        '<strong> 糟糕 !</strong> 服务器错误'+
+                        '.请刷新后重试' +
+                        '</div>' +
+                        '</div>');
+                    setTimeout("yalert()", 2000)
+                }
+            })
+        })
+
+    }
+    function yalert() {
+
+        $('#alert').fadeOut(1000);
+        $('#alert').remove()
+    }
+
+</script>
+<script>
+    setTimeout("$('#alert').fadeOut(1000)", 2000)
+</script>
+<div id="del">
+
+</div>

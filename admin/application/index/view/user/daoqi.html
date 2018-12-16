@@ -1,0 +1,123 @@
+<div class="page-title">
+
+    <div class="title-env">
+        <h1 class="title">五天到期</h1>
+    </div>
+
+    <div class="breadcrumb-env">
+
+        <ol class="breadcrumb bc-1">
+            <li>
+                <a href="{:url('/')}"><i class="fa-home"></i>Home</a>
+            </li>
+
+            <li class="active">
+
+                <strong>User</strong>
+            </li>
+        </ol>
+
+    </div>
+
+</div>
+<!-- Responsive Table -->
+<div class="row">
+    <div class="col-md-12">
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+
+                <div class="panel-options">
+
+
+                    <a href="#" data-toggle="panel">
+                        <span class="collapse-icon">&ndash;</span>
+                        <span class="expand-icon">+</span>
+                    </a>
+
+                    <a href="#" data-toggle="reload">
+                        <i class="fa-rotate-right"></i>
+                    </a>
+
+                    <a href="#" data-toggle="remove">
+                        &times;
+                    </a>
+                </div>
+            </div>
+            <div class="panel-body">
+
+
+                <div class="table-responsive" data-pattern="priority-columns" data-focus-btn-icon="fa-asterisk"
+                     data-sticky-table-header="true" data-add-display-all-btn="true" data-add-focus-btn="true">
+
+
+                    <table cellspacing="0" class="table table-small-font table-bordered table-striped">
+                        <thead>
+                        <tr>
+
+                            <th>账户</th>
+
+                            <th>审核</th>
+                            <th>创建时间</th>
+                            <th>最后登陆时间</th>
+                            <th>会员到期时间</th>
+                            <th>剩余点数</th>
+                            <th>登录次数</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {volist name="list" id="vo"}
+                        <tr>
+
+                            <td>{$vo.username}</td>
+
+                            <td><button class="btn btn-gray" onclick="status('{$vo.status==\'1\'?\'0\':\'1\'}','{$vo.id}')">{$vo.status==='1'?'<span style="color: green"> 封&nbsp;&nbsp;&nbsp;&nbsp;号</span>':'<span style="color: red"> 解封</span>'}</button></td>
+                            <td>{$vo.ctime|date="Y-m-d H:i:s",###}</td>
+                            <td>
+
+                                <?php
+                                    if($vo['logintime']=='0')
+                                    {
+                                        echo '未登陆';
+                                    }else{
+                                        echo date('Y-m-d H:i:s',$vo['logintime']);
+                                    }
+                                ?>
+
+
+                            </td>
+
+
+                            <td><button onclick="btime('{$vo.id}')" class="btn btn-gray">
+                                <?php
+                                    if($vo['lasttime']=='0')
+                                    {
+                                        echo '未充值';
+                                    }elseif($vo['lasttime']<time()){
+                                        echo '<span style="color:red">'.date('Y-m-d H:i:s',$vo['lasttime']).'</span>';
+                                    }else{
+                                        echo date('Y-m-d H:i:s',$vo['lasttime']);
+                                    }
+                                ?></button></td>
+                            <td><button onclick="money('','{$vo.id}')" class="btn btn-gray">{$vo.money}</button></td>
+                            <td>{$vo.count}</td>
+
+
+                        </tr>
+                        {/volist}
+                        </tbody>
+                    </table>
+                    {$list->render()}
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+</div>

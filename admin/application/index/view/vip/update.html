@@ -1,0 +1,163 @@
+<div class="page-title">
+
+    <div class="title-env">
+        <h1 class="title">用户管理</h1>
+    </div>
+
+    <div class="breadcrumb-env">
+
+        <ol class="breadcrumb bc-1">
+            <li>
+                <a href="{:url('/')}"><i class="fa-home"></i>Home</a>
+            </li>
+            <li>
+
+                <a href="{:url('vip/index')}">User</a>
+            </li>
+            <li class="active">
+
+                <strong>Update</strong>
+            </li>
+        </ol>
+
+    </div>
+
+</div>
+<div class="panel panel-default">
+
+
+    <div class="panel-body">
+
+        <form role="form" id="form1" method="post" action="{:url('vip/update')}" class="validate">
+
+            <div class="form-group">
+                <label class="control-label">账号</label>
+
+                <input type="text" class="form-control" name="name" data-validate="required,minlength[4],maxlength[18]" value="{$data.username}" data-message-required="账号必填,长度最小为4个字符,最大为18个字符" placeholder="账号" />
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">密码</label>
+
+                <input type="password" class="form-control" id="password" name="password" data-validate="minlength[4],maxlength[18]"  data-message-required="密码必填,长度最小为4个字符,最大为18个字符" placeholder="******" />
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">确认密码</label>
+
+                <input type="password" class="form-control" name="_password" data-validate="minlength[4],equalTo[#password],maxlength[18]" data-message-required="确认密码必填,长度最小为4个字符,最大为18个字符,并与密码一致" placeholder="******" />
+            </div>
+
+
+
+            <div class="form-group">
+                <label class="control-label">身份</label>
+
+
+                    <select name="power" id="ss" onchange="dai()" class="form-control">
+                        <option value="1" onclick="dai()" {$data.power=='1'?'selected':''}>开通代理&nbsp;(需扣除二十点)</option>
+                        <option value="2" onclick="yong()" {$data.power=='2'?'selected':''}>用&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;户&nbsp;(无&nbsp;需&nbsp;扣&nbsp;点)</option>
+
+                    </select>
+
+            </div>
+
+            <div class="form-group" id="dai" style="display: {$data.power=='1'?'block':'none'}">
+                <label class="control-label">联系方式</label>
+
+                <input type="text" class="form-control" name="phone" data-validate="required" value="{$data.phone}" data-message-required="联系方式必填" placeholder="QQ或者微信" />
+            </div>
+
+
+            <div class="form-group" id="wei" style="display: {$data.power=='1'?'block':'none'}">
+                <label class="control-label">微信</label>
+
+                <input type="text" class="form-control" name="weichat" data-validate="required" value="{$data.weichat}" data-message-required="微信必填" placeholder="微信" />
+            </div>
+            <INPUT type="hidden" name="id" value="{$data.id}">
+            <?php if(session('power')=='0'){?>
+            <div class="form-group " id="share" style="display: {$data.power=='1'?'block':'none'}">
+                <label class="control-label">推荐码</label>
+                <input type="text" class="form-control" name="share_ma" value="{$data.share_ma}"  placeholder="推荐码不能为汉字" />
+            </div><?php }?>
+            <div class="form-group">
+                <button type="submit" class="btn btn-success">提交</button>
+                <button type="reset" class="btn btn-white">重置</button>
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+<script>
+    function dai() {
+        var ss= $('#ss').val();
+        if(ss=='1')
+        {
+            $('#dai').css('display','block')
+            $('#wei').css('display','block')
+            $('#share').css('display','block')
+        }else{
+            $('#dai').css('display','none')
+            $('#wei').css('display','none')
+            $('#share').css('display','none')
+        }
+    }
+</script>
+{$code=='err1'?'
+<div class="col-md-6">
+    <div class="alert alert-danger" id="alert" style="position:fixed;right:0px;bottom:0px;  width: 350px">
+        <button type="button" class="close" data-dismiss="alert">
+            <span aria-hidden="true">×</span>
+            <span class="sr-only">Close</span>
+        </button>
+        <strong> 糟糕 !</strong> 修改失败 .用户已存在
+        .请重新修改
+    </div>
+</div>
+
+':''}
+
+{$code=='err3'?'
+<div class="col-md-6">
+    <div class="alert alert-danger" id="alert" style="position:fixed;right:0px;bottom:0px;  width: 350px">
+        <button type="button" class="close" data-dismiss="alert">
+            <span aria-hidden="true">×</span>
+            <span class="sr-only">Close</span>
+        </button>
+        <strong> 糟糕 !</strong> 您的余额不足，请联系管理员充值
+    </div>
+</div>
+
+':''}
+
+{$code=='err4'?'
+<div class="col-md-6">
+    <div class="alert alert-danger" id="alert" style="position:fixed;right:0px;bottom:0px;  width: 350px">
+        <button type="button" class="close" data-dismiss="alert">
+            <span aria-hidden="true">×</span>
+            <span class="sr-only">Close</span>
+        </button>
+        <strong> 糟糕 !</strong> 推荐码已存在
+        .请重新添加
+    </div>
+</div>
+
+':''}
+{$code=='err2'?'
+<div class="col-md-6">
+    <div class="alert alert-danger" id="alert" style="position:fixed;right:0px;bottom:0px;  width: 350px">
+        <button type="button" class="close" data-dismiss="alert">
+            <span aria-hidden="true">×</span>
+            <span class="sr-only">Close</span>
+        </button>
+        <strong> 糟糕 !</strong> 修改失败
+        .请重新修改
+    </div>
+</div>
+
+':''}
+<script>
+    setTimeout("$('#alert').fadeOut(1000)",2000)
+</script>

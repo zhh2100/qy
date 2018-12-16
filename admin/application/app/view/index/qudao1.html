@@ -1,0 +1,60 @@
+<!doctype html>
+<html style="font-size: 50px;">
+<head>
+  	<title>千月影视_APP下载</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <link rel="stylesheet" type="text/css" href="/public/static/share/share.css" />
+</head>
+<body>
+  <div class="sp-content">
+  	 <div class="bigImg">
+  		<img src="/public/static/share/top.jpg">
+  		<div class="getVip" style=" background-color:#ca1574">
+  			<input id="phone" type="tel" name="telNumber" placeholder="请输入手机号" maxlength="11"><button onClick="getZce()">领取VIP</button>
+  		</div>
+  	</div>
+  	
+  </div>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/layer/2.3/layer.js"></script>
+<script type="text/javascript">
+  function getZce() {
+    var phone = document.getElementById("phone").value;
+    if (phone=='') {
+      layer.msg('请输入手机号码');
+      return;
+    }
+    if (phone.length != 11) {
+      layer.msg('请输入11位手机号码');
+      document.getElementById("phone").value = '';
+      return;
+    }
+
+    $.ajax({
+      type: "GET",
+      url: "http://120.86.156.22:8082/login/login/zce.html",
+      data: {phone:phone,uid:'{$uid}',sid:'{$sid}',code:'{$code}'},
+      dataType: "jsonp",
+      success: function(data){
+         if (data.code == 1) {
+           layer.msg('领取成功！');
+           setTimeout("tourl()","2000");
+         }else if (data.code == 0) {
+           layer.msg(data.msg);
+           setTimeout("tourl()","2000");
+         }
+        }
+    });
+
+
+    //
+
+  }
+  function tourl(){
+    window.location.href='http://120.86.156.22:8082/';
+  }
+</script>
+</html>

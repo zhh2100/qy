@@ -1,0 +1,79 @@
+
+    <div class="page-title">
+
+        <div class="title-env">
+            <h1 class="title">系统公告</h1>
+
+        </div>
+
+        <div class="breadcrumb-env">
+
+            <ol class="breadcrumb bc-1">
+                <li>
+                    <a ><i class="fa-home"></i>Home</a>
+                </li>
+            </ol>
+
+        </div>
+
+    </div>
+    <div class="row">
+
+        <div class="col-md-12">
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="panel-title">今天是{:date('Y年m月d日')} </div>
+
+                    <div class="panel-options">
+                        <a href="#sample-modal" data-toggle="modal" data-target="#sample-modal-dialog-1" class="bg"><i class="entypo-cog"></i></a>
+                        <a href="#" data-rel="collapse"><i class="entypo-down-open"></i></a>
+                        <a href="#" data-rel="reload"><i class="entypo-arrows-ccw"></i></a>
+                        <a href="#" data-rel="close"><i class="entypo-cancel"></i></a>
+                    </div>
+                </div>
+
+                <div class="panel-body">
+
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            <div class="row">
+                                <div class="col-sm-6">
+
+                                    <h5>尊敬的{:name()}</h5>
+
+                                    <blockquote>
+                                        <p>
+                                            <strong>身份:{:power()}</strong>
+                                            <br />
+                                            欢迎您登陆.祝您身体健康.工作顺利.
+                                        </p>
+                                    </blockquote>
+
+                                </div>
+
+
+                            </div>
+
+                            <br />
+
+                            <h5>公告</h5>
+
+                            <blockquote class="pull-left" style="width: 100%">
+                                <p>{:advert()}</p>
+                                <small class="pull-right">
+                                    发布人：
+                                    <cite title="Source Title">管理员</cite>
+                                </small>
+                            </blockquote>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>

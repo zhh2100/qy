@@ -1,0 +1,130 @@
+<div class="page-title">
+
+    <div class="title-env">
+        <h1 class="title">有效点卡</h1>
+    </div>
+
+    <div class="breadcrumb-env">
+
+        <ol class="breadcrumb bc-1">
+            <li>
+                <a href="{:url('/')}"><i class="fa-home"></i>Home</a>
+            </li>
+
+
+        </ol>
+
+    </div>
+
+</div>
+<!-- Responsive Table -->
+<div class="row">
+    <div class="col-md-12">
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+
+                <div class="panel-options">
+
+
+                    <a href="#" data-toggle="panel">
+                        <span class="collapse-icon">&ndash;</span>
+                        <span class="expand-icon">+</span>
+                    </a>
+
+                    <a href="#" data-toggle="reload">
+                        <i class="fa-rotate-right"></i>
+                    </a>
+
+                    <a href="#" data-toggle="remove">
+                        &times;
+                    </a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div style="text-align: center">
+                    <form class="validate" method="get" action="{:url('dianka/ylog')}">
+
+                        创建时间 <br><input class="form-control"  type="date" name="start" id="start" value="{$start}" >-<input type="date" id="end" name="end" value="{$end}" class="form-control" >
+                        <input class="form-control" placeholder="&nbsp;点卡" type="text" id="user" value="{$user}" name="user" style="height: 38px">
+                        <select name="day" id="day" class="form-control">
+                            <option value=""}>所有</option>
+                            <option {$day=='七天'?'selected':''} value="七天"}>七天</option>
+                            <option {$day=='一个月'?'selected':''} value="一个月"}>一个月</option>
+                            <option {$day=='三个月'?'selected':''} value="三个月"}>三个月</option>
+                            <option {$day=='一年'?'selected':''} value="一年"}>一年</option>
+                            <option {$day=='永久'?'selected':''} value="永久"}>永久</option>
+
+                        </select>
+                        <button type="submit" class="btn btn-turquoise" style="height: 38px;margin-top: 7px;">搜索</button>
+                        <button type="button" onclick="txt()" class="btn btn-turquoise" style="height: 38px;margin-top: 7px;">txt导出</button>
+                        <button type="button" onclick="excel()" class="btn btn-turquoise" style="height: 38px;margin-top: 7px;">excel导出</button>
+
+                    </form>
+
+                </div>
+                <div class="table-responsive" data-pattern="priority-columns" data-focus-btn-icon="fa-asterisk"
+                     data-sticky-table-header="true" data-add-display-all-btn="true" data-add-focus-btn="true">
+
+
+                    <div class="table-responsive" data-pattern="priority-columns" data-focus-btn-icon="fa-asterisk"
+                         data-sticky-table-header="true" data-add-display-all-btn="true" data-add-focus-btn="true">
+                        <table cellspacing="0" class="table table-small-font table-bordered table-striped">
+                            <thead>
+                            <tr>
+
+                                <th>卡号</th>
+                                <th>充值时间</th>
+                                <th>生成人</th>
+                                <th>创建时间</th>
+
+
+
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {volist name="list" id="vo"}
+                            <tr>
+
+                                <td>{$vo.dianka}</td>
+                                <td>{$vo.name}</td>
+                                <td>{:_name($vo.uid)}</td>
+                                <td><?php echo date('Y-m-d H:i:s',$vo['ctime'])?></td>
+                            </tr>
+                            {/volist}
+                            </tbody>
+                        </table>
+                    </div>
+                    {$list->render()}
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+</div>
+<script>
+
+    function txt() {
+        var user    = $('#user').val();
+        var start    = $('#start').val();
+        var end    = $('#end').val();
+        var day    = $('#day').val();
+        window.open('/index/dao/ctxt.html?user='+user+'&start='+start+'&end='+end+'&day='+day);
+    }
+
+    function excel() {
+        var user    = $('#user').val();
+        var start    = $('#start').val();
+        var end    = $('#end').val();
+        var day    = $('#day').val();
+        window.open('/index/dao/cexcel.html?user='+user+'&start='+start+'&end='+end+'&day='+day);
+    }
+
+</script>

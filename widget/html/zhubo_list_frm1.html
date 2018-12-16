@@ -1,0 +1,137 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+    <link rel="styleshee00t vc'.bcfn.n.n..." type="text/css" href="../css/aui.css" />
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" type="text/css" href="../css/style.css"/>
+</head>
+<body>
+  <div class="wrap">
+    <!-- 游戏 -->
+    <div class="game-page">
+
+      <!-- 视频列表 -->
+    <div class="video-list-wrap" id="liveList">
+      <ul class="clearfix" id="div_list">
+
+      </ul>
+    </div>
+    <!-- 视频列表 end-->
+
+    </div>
+    <!-- 游戏 end-->
+  </div>
+</body>
+<script type="text/x-dot-template" id="template">
+{{~ it : value : index }}
+    <li onclick="openWin('{{= value. video }}')">
+      <div class="video-mask-box">
+        <img src="{{= value. img }}" alt="" class="game-pic">
+      </div>
+      <div class="til">{{= value. name }}</div>
+      <div class="detail clearfix">
+        <p class="anchor clearfix">
+          <i class="icon-m icon-ic_man"></i><span>{{= value. nickname }}</span>
+        </p>
+      </div>
+    </li>
+{{~}}
+</script>
+<script type="text/javascript" src="../script/api.js" ></script>
+<script type="text/javascript" src="../script/doT.js"></script>
+<script type="text/javascript">
+  var api_url = localStorage.getItem('api_url');
+  var i = 0;
+  apiready = function(){
+    api.showProgress({
+        title: '加载中...',
+        modal: false
+    });
+    getList();
+
+    api.addEventListener({
+        name:'scrolltobottom',
+        extra:{
+            threshold:0
+        }
+    }, function(ret, err){
+      showData();
+    });
+
+  }
+
+  function getList(){
+    var div_list = $api.byId('div_list');
+    var template = $api.byId('template');
+    api.ajax({
+        url: 'http://120.86.156.22:8082/api/gamezhibo.php',
+        method: 'get',
+        data: {
+            values: {
+                lx: 'hqzb',
+                ys: 1,
+                id: api.pageParam.id
+            }
+        }
+    },function(ret, err){
+        if (ret) {
+            alert( JSON.stringify( ret ) );
+            var pagefn = doT.template(template.text);
+            div_list.innerHTML = pagefn(ret);
+            api.hideProgress();
+        } else {
+          api.hideProgress();
+            alert( JSON.stringify( err ) );
+        }
+    });
+
+
+  }
+
+  function showData(){
+    i = 0;
+    var div_list = $api.byId('div_list');
+    var template = $api.byId('template');
+    api.ajax({
+        url: 'http://120.86.156.22:8082/api/gamezhibo.php',
+        method: 'get',
+        data: {
+            values: {
+              lx: 'hqzb',
+              ys: i,
+              id: api.pageParam.id
+            }
+        }
+    },function(ret, err){
+        if (ret) {
+            alert( JSON.stringify( ret ) );
+            var pagefn = doT.template(template.text);
+            div_list.innerHTML += pagefn(ret);
+        } else {
+            alert( JSON.stringify( err ) );
+        }
+    });
+
+  }
+
+  function openWin(name){
+        var delay = 0;
+        if(api.systemType != 'ios'){
+            delay = 300;
+        }
+        api.openWin({
+            name: 'game_play_win',
+            url: 'game_play_win.html',
+            bounces:false,
+            delay: delay,
+            slidBackEnabled:true,
+            vScrollBarEnabled:false,
+            pageParam:{video:'http://alhls.cdn.zhanqi.tv/zqlive/'+name+'.m3u8'}
+        });
+    }
+</script>
+</html>

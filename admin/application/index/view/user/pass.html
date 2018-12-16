@@ -1,0 +1,119 @@
+<div class="page-title">
+
+    <div class="title-env">
+        <h1 class="title">卡密购买链接设置</h1>
+    </div>
+
+    <div class="breadcrumb-env">
+
+        <ol class="breadcrumb bc-1">
+            <li>
+                <a href="{:url('/')}"><i class="fa-home"></i>Home</a>
+            </li>
+
+            <li class="active">
+
+                <strong>Update</strong>
+            </li>
+        </ol>
+
+    </div>
+
+</div>
+<div class="panel panel-default">
+
+
+    <div class="panel-body">
+
+        <form role="form" id="form1" method="post" action="{:url('user/pass')}" class="validate">
+
+
+
+			<div class="form-group">
+                <label class="control-label">QQ/微信(会显示在APP提示语后面)</label>
+
+                <input type="text" class="form-control" id="weichat" name="weichat" value="{$weichat}"  placeholder="QQ/微信" />
+            </div>
+			  <div class="form-group">
+                <label class="control-label">APP提示语(比如：购卡请联系QQ/微信：)</label>
+
+                <input type="text" class="form-control"  name="url" value="{:sname(session('user'),'url')}"  placeholder="比如：购卡请联系QQ/微信：" />
+            </div>
+          
+			  <div class="form-group">
+                <label class="control-label">七天购买链接(如不填写，会默认弹出APP提示语及联系方式)</label>
+
+                <input type="text" class="form-control"  name="url5" value="{:sname(session('user'),'url5')}"  placeholder="七天购买链接,请以http://开头" />
+            </div>          
+          
+          
+			  <div class="form-group">
+                <label class="control-label">一个月购买链接(如不填写，会默认弹出APP提示语及联系方式)</label>
+                <input type="text" class="form-control"  name="url1" value="{:sname(session('user'),'url1')}"  placeholder="一个月购买链接,请以http://开头" />
+            </div>
+			  <div class="form-group">
+                <label class="control-label">三个月购买链接(如不填写，会默认弹出APP提示语及联系方式)</label>
+
+                <input type="text" class="form-control"  name="url2" value="{:sname(session('user'),'url2')}"  placeholder="三个月购买链接,请以http://开头" />
+            </div>
+            
+			  <div class="form-group">
+                <label class="control-label">六个月购买链接(如不填写，会默认弹出APP提示语及联系方式)</label>
+
+                <input type="text" class="form-control"  name="url6" value="{:sname(session('user'),'url6')}"  placeholder="六个月购买链接,请以http://开头" />
+            </div>                 
+          
+			  <div class="form-group">
+                <label class="control-label">一年购买链接(如不填写，会默认弹出APP提示语及联系方式)</label>
+
+                <input type="text" class="form-control" name="url3" value="{:sname(session('user'),'url3')}"  placeholder="一年购买链接,请以http://开头" />
+            </div>
+			  <div class="form-group">
+                <label class="control-label">永久购买链接(如不填写，会默认弹出APP提示语及联系方式)</label>
+
+                <input type="text" class="form-control"  name="url4" value="{:sname(session('user'),'url4')}"  placeholder="永久购买链接,请以http://开头" />
+            </div>
+
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-success">提交</button>
+                <button type="reset" class="btn btn-white">重置</button>
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+
+{$code=='2'?'
+<div class="col-md-6">
+    <div class="alert alert-danger" id="alert" style="position:fixed;right:0px;bottom:0px;  width: 350px">
+        <button type="button" class="close" data-dismiss="alert">
+            <span aria-hidden="true">×</span>
+            <span class="sr-only">Close</span>
+        </button>
+        <strong> 糟糕 !</strong> 修改失败
+
+    </div>
+</div>
+
+':''}
+
+{$code=='1'?'<div class="col-md-6" id="alert" style="position:fixed;right:0px;bottom:0px;  width: 350px">
+    <div class="alert alert-success">
+        <button type="button" class="close" data-dismiss="alert">
+            <span aria-hidden="true">×</span>
+            <span class="sr-only">Close</span>
+        </button>
+
+        <strong>恭喜 !</strong> 修改成功.
+    </div>
+</div>
+
+':''}
+<script>
+    setTimeout("$('#alert').fadeOut(1000)",2000)
+</script>

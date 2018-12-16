@@ -1,0 +1,244 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="../css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <style type="text/css">
+        p {
+            margin-bottom: 0.5rem;
+        }
+        ::-webkit-input-placeholder { /* WebKit browsers */
+            color:    #eaeaea;
+        }
+        :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+            color:    #eaeaea;
+        }
+        ::-moz-placeholder { /* Mozilla Firefox 19+ */
+            color:    #eaeaea;
+        }
+        :-ms-input-placeholder { /* Internet Explorer 10+ */
+            color:    #eaeaea;
+        }
+    </style>
+</head>
+<body class="login-bg2">
+
+  <header class="aui-bar aui-bar-nav" id="aui-header" style="background-color:rgba(0,0,0,0) !important">
+      <a class="aui-btn aui-pull-left" tapmode onclick="closeWin()">
+          <span class="aui-iconfont aui-icon-left"></span>
+      </a>
+      <div id="title" class="aui-title">会员登录</div>
+  </header>
+
+  <div class="myui-from">
+    <ul class="myui-from-list">
+      <li class="myui-from-list-item">
+        <input type="tel" minlength="11" maxlength="11" id="username" placeholder="请输入账号" class="myui-from-list-item-input" value ="">
+      </li>
+      <li class="myui-from-list-item">
+        <input id="password" type="password" placeholder="请输入密码" class="myui-from-list-item-input" value ="">
+      </li>
+      <li class="myui-from-list-item">
+        <button type="button" name="button" class="myui-from-list-item-button" onclick="loginTo()">马上登录</button>
+      </li>
+    </ul>
+  </div>
+  <div class="to-login-box">
+    <div class="to-login" tapmode onclick="openWin('repass')">
+      找回密码
+    </div>
+    <div class="to-login-l" tapmode onclick="openWin('reg_frm')">
+      注册账号
+    </div>
+  </div>
+</body>
+<script type="text/javascript" src="../script/api.js" ></script>
+<script type="text/javascript">
+    var api_url = localStorage.getItem('api_url');
+    apiready = function () {
+      api.parseTapmode();
+      var header = $api.byId('aui-header');
+      $api.fixStatusBar(header);
+      var headerPos = $api.offset(header);
+      var body_h = $api.offset($api.dom('body')).h;
+
+
+      if (api.pageParam.user) {
+        var username = $api.byId('username');
+        var password = $api.byId('password');
+        password.value = api.pageParam.pass;
+        username.value = api.pageParam.user;
+
+      }
+
+
+    }
+    function closeWin(){
+        api.closeWin({
+        });
+    }
+
+    // function toWin(name){
+    //   api.closeToWin({
+    //       name: name
+    //   });
+    // }
+
+
+
+    function openWin(name){
+          var delay = 0;
+          if(api.systemType != 'ios'){
+              delay = 300;
+          }
+          api.openWin({
+              name: name,
+              url: name+'.html',
+              bounces:false,
+              delay: delay,
+              slidBackEnabled:true,
+              bgColor: '#000',
+              animation:{
+                type:"reveal",                //动画类型（详见动画类型常量）
+                subType:"from_bottom",       //动画子类型（详见动画子类型常量）
+                duration:400
+              },
+              vScrollBarEnabled:false
+          });
+      }
+
+
+
+      function loginTo(){
+        var username = $api.val($api.byId('username'));
+				var password = $api.val($api.byId('password'));
+
+        if(username == ''){
+      /*    api.alert({
+              title: '警告！',
+              msg: '请输入登录账号',
+          });
+        原弹窗提示  */
+        api.toast({
+            msg: '千月影视提醒！ 账号都没输入',
+            duration: 5000
+        });
+          return;
+        }
+        if(password == ''){
+        /*           api.alert({
+              title: '警告！',
+              msg: '请输入密码',
+          });
+  原弹窗提示  */
+        api.toast({
+            msg: '千月影视提醒！密码还没输入',
+            duration: 5000
+        });
+          return;
+        }
+  /*       api.showProgress({
+            title: '努力验证中',
+            text: '请骚等...',
+            modal: false
+        });
+原弹窗提示  */
+
+api.toast({
+    msg: '千月影视提醒！努力验证中……',
+    duration: 5000
+});
+
+
+        api.closeWin({
+            name: 'reg_frm'
+        });
+        //请求数据库并存储用户信息
+        var api_url = localStorage.getItem('api_url');
+        api.ajax({
+            url: 'http://120.86.156.22:8082/login/login/veifys.html',
+            method: 'get',
+            data: {
+                values: {
+                    username: username,
+                    passwd: password,
+                    imei:api.deviceId
+                }
+            }
+        },function(ret, err){
+            if (ret) {
+              if (ret.code == 0) {
+            /*    api.hideProgress();
+                alert('账号或密码不正确');
+  原弹窗提示  */
+                api.toast({
+                    msg: '千月影视提醒！账号或密码不正确',
+                    duration: 5000
+                });
+
+
+                return;
+              }else if (ret.code == 1) {
+          /*       alert('登录成功');
+                原弹窗提示  */
+                api.toast({
+                    msg: '千月影视提醒！登陆成功！',
+                    duration: 5000
+                });
+
+
+                //alert( JSON.stringify( ret ) );
+                  localStorage.setItem('user_id',ret.msg['id']);
+                  localStorage.setItem('user_name',username);
+                  localStorage.setItem('password',password);
+                  localStorage.setItem('user_time',ret.msg['time']);
+                  localStorage.setItem('user_share',ret.msg['share']);
+                  localStorage.setItem('user_advert',ret.msg['advert']);
+                  localStorage.setItem('user_code',ret.msg['code']);
+                  localStorage.setItem('user_weichat',ret.msg['weichat']);
+                  localStorage.setItem('url',ret.msg['url']);
+                  localStorage.setItem('url1',ret.msg['url1']);
+                  localStorage.setItem('url2',ret.msg['url2']);
+                  localStorage.setItem('url3',ret.msg['url3']);
+                  localStorage.setItem('url4',ret.msg['url4']);
+                  api.sendEvent({
+                    name: 'newLoingdata',
+                    extra: {
+                    }
+                  });
+
+
+                  api.hideProgress();
+
+                  api.closeWin({
+                  });
+
+                  // api.openWin({
+                  //     name: 'index',
+                  //     url: '../index.html',
+                  // });
+
+
+              }
+            } else {
+              api.hideProgress();
+            /*   alert('网络错误！');
+                  原弹窗提示*/
+                  api.toast({
+                      msg: '千月影视提醒！网络错误 请检查！',
+                      duration: 5000
+                  });
+
+              //alert( JSON.stringify( err ) );
+              return;
+            }
+        });
+      }
+
+
+</script>
+</html>

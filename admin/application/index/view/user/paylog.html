@@ -1,0 +1,112 @@
+<div class="page-title">
+
+    <div class="title-env">
+        <h1 class="title">在线支付交易记录</h1>
+    </div>
+
+    <div class="breadcrumb-env">
+
+        <ol class="breadcrumb bc-1">
+            <li>
+                <a href="{:url('/')}"><i class="fa-home"></i>Home</a>
+            </li>
+
+            <li class="active">
+
+                <strong>User</strong>
+            </li>
+        </ol>
+
+    </div>
+
+</div>
+<!-- Responsive Table -->
+<div class="row">
+    <div class="col-md-12">
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+
+                <div class="panel-options">
+
+
+                    <a href="#" data-toggle="panel">
+                        <span class="collapse-icon">&ndash;</span>
+                        <span class="expand-icon">+</span>
+                    </a>
+
+                    <a href="#" data-toggle="reload">
+                        <i class="fa-rotate-right"></i>
+                    </a>
+
+                    <a href="#" data-toggle="remove">
+                        &times;
+                    </a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div style="text-align: center">
+                    <form method="get" action="{:url('user/paylog')}">
+
+                        <input placeholder="&nbsp;订单关键词" type="text" name="vip" style="height: 38px">
+
+
+                        <button type="submit" class="btn btn-turquoise" style="height: 38px;margin-top: 7px;">搜索</button>
+                    </form>
+
+                </div>
+
+                <div class="table-responsive" data-pattern="priority-columns" data-focus-btn-icon="fa-asterisk"
+                     data-sticky-table-header="true" data-add-display-all-btn="true" data-add-focus-btn="true">
+                    <table cellspacing="0" class="table table-small-font table-bordered table-striped">
+                        <thead>
+                        <tr>
+
+                            <th>ID</th>
+                            <th>交易号</th>
+                            <th>商户订单号</th>
+							<th>支付方式</th>
+                            <th>商品名称</th>
+                            <th>支付金额</th>
+							<th>订单状态</th>
+                            <th>充值卡号</th>
+                            <th>充值人</th>
+							<th>订单时间</th>
+
+
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {volist name="list" id="vo"}
+                        <tr>
+
+                            <td>{$vo.id}</td>
+                            <td>{$vo.trade}</td>
+                            <td>{$vo.outtrade}</td>
+							<td>{$vo.type}</td>
+                            <td>{$vo.name}</td>
+							<td>{$vo.money}</td>
+                            <td>{$vo.trade_status}</td>
+							<td>{$vo.kami}</td>
+                            <td>{:gui($vo.cid)}</td>
+							<td>{$vo.time|date="Y-m-d H:i:s",###}</td>
+
+
+
+                        </tr>
+                        {/volist}
+                        </tbody>
+                    </table>
+                    {$list->render()}
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+</div>
