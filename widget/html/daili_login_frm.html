@@ -238,7 +238,7 @@ api.toast({
         //请求数据库并存储用户信息
         var api_url = localStorage.getItem('api_url');
         api.ajax({
-            url: 'http://120.86.156.22:8082/login/login/veify',
+            url: 'http://120.86.158.227:8082/login/login/veify',
             method: 'POST',
             data: {
                 values: {
@@ -286,14 +286,14 @@ api.toast({
 
               /*    api.openWin({
                     name: 'h5',
-                    url: 'http://120.86.156.22:8082/index/index/index',
+                    url: 'http://120.86.158.227:8082/index/index/index',
                    });
 */
                    api.openWin({
                        name: 'video_win',
                        url: './video_win.html',
                        delay: 800,
-                       pageParam:{url:'http://120.86.156.22:8082/index/index/index'},
+                       pageParam:{url:'http://120.86.158.227:8082/index/index/index'},
                        bgColor: 'rgba(0,0,0,0)'
                    });
 
